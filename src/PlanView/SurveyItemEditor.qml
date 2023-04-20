@@ -67,6 +67,35 @@ TransectStyleComplexItemEditor {
                 visible:            !forPresets
             }
 
+            QGCLabel { text: qsTr("Model") }
+            QGCComboBox {
+                id:                 model_name
+                editable:           true
+                Layout.fillWidth:   true
+                currentIndex:       0
+                model:              ListModel {
+                    id: model
+                    ListElement {text: "model1"} 
+                    ListElement {text: "model2"}
+                    ListElement {text: "model3"}
+                }
+
+                onCurrentIndexChanged: {
+                    if (currentIndex >=0 && currentIndex < model.length) {
+                        missionItem.commandtext = model.get(currentIndex).text
+                    }
+                }
+
+                onAccepted: {
+                    if (find(editText) === -1) {
+                        model.append({text: editText})
+                        currentIndex = find(editText)
+                    }
+                }
+
+
+            }
+
             QGCOptionsComboBox {
                 Layout.columnSpan:  2
                 Layout.fillWidth:   true

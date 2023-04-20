@@ -29,11 +29,13 @@ public:
 
     Q_PROPERTY(Fact*            gridAngle              READ gridAngle              CONSTANT)
     Q_PROPERTY(Fact*            flyAlternateTransects  READ flyAlternateTransects  CONSTANT)
+    Q_PROPERTY(Fact*            commandtext            READ commandtext            CONSTANT)
     Q_PROPERTY(Fact*            splitConcavePolygons   READ splitConcavePolygons   CONSTANT)
     Q_PROPERTY(QGeoCoordinate   centerCoordinate       READ centerCoordinate       WRITE setCenterCoordinate)
 
     Fact* gridAngle             (void) { return &_gridAngleFact; }
     Fact* flyAlternateTransects (void) { return &_flyAlternateTransectsFact; }
+    Fact* commandtext           (void) { return &_commandtextFact; }
     Fact* splitConcavePolygons  (void) { return &_splitConcavePolygonsFact; }
 
     Q_INVOKABLE void rotateEntryPoint(void);
@@ -91,6 +93,7 @@ private slots:
     // Overrides from TransectStyleComplexItem
     void _rebuildTransectsPhase1        (void) final;
     void _recalcCameraShots             (void) final;
+    void _commandtextChanged                    (void);
 
 private:
     enum CameraTriggerCode {
@@ -138,6 +141,7 @@ private:
 
     SettingsFact    _gridAngleFact;
     SettingsFact    _flyAlternateTransectsFact;
+    Fact            _commandtextFact;
     SettingsFact    _splitConcavePolygonsFact;
     int             _entryPoint;
 

@@ -261,7 +261,7 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
         // Load generated mission items
         _loadedMissionItemsParent = new QObject(this);
         QJsonArray missionItemsJsonArray = innerObject[_jsonItemsKey].toArray();
-        for (const QJsonValue missionItemJson: missionItemsJsonArray) {
+        for (const QJsonValue missionItemJson: missionItemsJsonArray) { //here
             MissionItem* missionItem = new MissionItem(_loadedMissionItemsParent);
             if (!missionItem->load(missionItemJson.toObject(), 0 /* sequenceNumber */, errorString)) {
                 _loadedMissionItemsParent->deleteLater();

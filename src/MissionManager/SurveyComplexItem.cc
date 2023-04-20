@@ -69,6 +69,7 @@ SurveyComplexItem::SurveyComplexItem(PlanMasterController* masterController, boo
     , _metaDataMap              (FactMetaData::createMapFromJsonFile(QStringLiteral(":/json/Survey.SettingsGroup.json"), this))
     , _gridAngleFact            (settingsGroup, _metaDataMap[gridAngleName])
     , _flyAlternateTransectsFact(settingsGroup, _metaDataMap[flyAlternateTransectsName])
+    , _commandtextFact          (0,         "Commandtext:",         FactMetaData::valueTypeString)
     , _splitConcavePolygonsFact (settingsGroup, _metaDataMap[splitConcavePolygonsName])
     , _entryPoint               (EntryLocationTopLeft)
 {
@@ -93,6 +94,7 @@ SurveyComplexItem::SurveyComplexItem(PlanMasterController* masterController, boo
 
     connect(&_gridAngleFact,            &Fact::valueChanged,                        this, &SurveyComplexItem::_setDirty);
     connect(&_flyAlternateTransectsFact,&Fact::valueChanged,                        this, &SurveyComplexItem::_setDirty);
+    connect(&_commandtextFact,          &Fact::valueChanged,                        this, &SurveyComplexItem::_commandtextChanged);
     connect(&_splitConcavePolygonsFact, &Fact::valueChanged,                        this, &SurveyComplexItem::_setDirty);
     connect(this,                       &SurveyComplexItem::refly90DegreesChanged,  this, &SurveyComplexItem::_setDirty);
 
@@ -109,6 +111,14 @@ SurveyComplexItem::SurveyComplexItem(PlanMasterController* masterController, boo
         _surveyAreaPolygon.setDirty(false);
     }
     setDirty(false);
+}
+
+void SurveyComplexItem::_commandtextChanged(void)
+{
+    for(auto mi : _loadedMissionItems){
+        mi->_param8Fact.setRawValue(_commandtextFact.rawValue());
+    }
+    
 }
 
 void SurveyComplexItem::save(QJsonArray&  planItems)
